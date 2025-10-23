@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGNA Constructora</title>
+
+  <!-- Bootstrap y fuentes -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- AOS (animaciones al hacer scroll) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      /* 🌙 Modo oscuro (predeterminado) */
+      --color-fondo: #0E0E0E;
+      --color-secundario: #1F1F1F;
+      --color-texto: #EAEAEA;
+      --color-acento: #BFBFBF;
+      --color-blanco: #FFFFFF;
+    }
+
+    /* ☀️ Modo claro */
+    body.light-mode {
+      --color-fondo: #FFFFFF;
+      --color-secundario: #F4F4F4;
+      --color-texto: #2C2C2C;
+      --color-acento: #1A2E40;
+      --color-blanco: #000000;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--color-fondo);
+      color: var(--color-texto);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+      padding-top: 80px; /* compensar header fijo */
+      scroll-behavior: smooth; /* 🧭 scroll suave */
+    }
+
+    /* 🔝 Header fijo y flotante */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--color-secundario);
+      padding: 1rem 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+    }
+
+    /* ✨ Efecto al hacer scroll */
+    header.scrolled {
+      background-color: rgba(31, 31, 31, 0.85);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    body.light-mode header.scrolled {
+      background-color: rgba(244, 244, 244, 0.9);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: var(--color-acento) !important;
+      letter-spacing: 1px;
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+      color: var(--color-texto) !important;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+      color: var(--color-acento) !important;
+    }
+    /* 🌟 Subrayado animado en los enlaces */
+.navbar-nav .nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-acento);
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+/* 🟡 Estilo para el enlace activo */
+.navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--color-acento) !important;
+  font-weight: 500;
+}
+
+    .theme-toggle {
+      background-color: transparent;
+      border: 1px solid var(--color-acento);
+      color: var(--color-acento);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background-color: var(--color-acento);
+      color: var(--color-fondo);
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(rgba(14,14,14,0.6), rgba(14,14,14,0.6)), url('hero-placeholder.jpg') center/cover;
+      color: var(--color-blanco);
+      text-align: center;
+      padding: 140px 20px;
+      transition: background-color 0.4s ease;
+    }
+
+    body.light-mode .hero {
+      background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('hero-placeholder.jpg') center/cover;
+      color: var(--color-acento);
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--color-acento);
+    }
+
+    .hero p {
+      color: var(--color-texto);
+      font-size: 1.2rem;
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--color-acento);
+      transition: color 0.4s ease;
+    }
+
+    .services .card {
+      background-color: var(--color-secundario);
+      border: none;
+      color: var(--color-texto);
+      transition: transform 0.3s ease, background-color 0.4s ease;
+    }
+
+    .services .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-acento {
+      background-color: var(--color-acento);
+      color: var(--color-fondo);
+      border: none;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-acento:hover {
+      opacity: 0.85;
+    }
+
+    footer {
+      background-color: var(--color-secundario);
+      color: var(--color-texto);
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* 💬 Botón flotante de WhatsApp */
+    .whatsapp-float {
+      position: fixed;
+      width: 55px;
+      height: 55px;
+      bottom: 25px;
+      right: 25px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 28px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      text-decoration: none;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="img/logo.svg" alt="Logo SIGNA" height="40" class="me-2">
+        SIGNA Constructora
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+          <li class="nav-item"><a class="nav-link" href="#proyectos">Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          <li class="nav-item">
+            <button id="theme-toggle" class="theme-toggle ms-3" title="Cambiar modo">Modo claro</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section id="inicio" class="hero" data-aos="fade-up">
+    <div class="container">
+      <h1>Construimos futuro. Innovamos con responsabilidad.</h1>
+      <p class="mt-3">Arquitectura que inspira confianza, sostenibilidad y progreso.</p>
+      <a href="#proyectos" class="btn btn-acento mt-4">Ver proyectos</a>
+    </div>
+  </section>
+
+  <section id="nosotros" class="container" data-aos="fade-up">
+    <h2 class="section-title">Nosotros</h2>
+    <p class="text-center">En SIGNA Constructora trabajamos con pasión, calidad y compromiso. Nuestra misión es crear obras que perduren, combinando innovación y responsabilidad para construir un futuro mejor.</p>
+  </section>
+
+  <section id="servicios" class="services" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">Servicios</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card p-4 text-center h-100">
+            <h5>Construcción Civil</h5>
+            <p>Ejecutamos obras con altos estándares de calidad y seguridad.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-4 text-center h-100">
+            <h5>Diseño Arquitectónico</h5>
+            <p>Desarrollamos proyectos innovadores que inspiran y perduran.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-4 text-center h-100">
+            <h5>Consultoría Técnica</h5>
+            <p>Brindamos asesoramiento profesional para garantizar resultados óptimos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos" class="container" data-aos="fade-up">
+    <h2 class="section-title">Proyectos</h2>
+    <div class="row g-4">
+      <p class="text-center">Próximamente: galería de obras destacadas.</p>
+    </div>
+  </section>
+
+  <section id="contacto" class="container" data-aos="fade-up">
+    <h2 class="section-title">Contacto</h2>
+    <form action="https://formspree.io/f/your-form-id" method="POST" class="mx-auto" style="max-width:600px;">
+      <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" name="nombre" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Mensaje</label>
+        <textarea class="form-control" rows="4" name="mensaje" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-acento w-100">Enviar</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 SIGNA Constructora. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- 💬 Botón flotante WhatsApp -->
+  <a href="https://wa.me/5491112345678" class="whatsapp-float" target="_blank" title="Contactar por WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="28" height="28" style="margin-top:13px;">
+      <path d="M20.52 3.48A11.87 11.87 0 0012.04 0C5.45 0 .06 5.39.06 12a11.92 11.92 0 001.58 5.94L0 24l6.25-1.63a11.93 11.93 0 005.78 1.48h.01c6.59 0 12.03-5.39 12.03-12s-5.47-8.37-3.55-8.37zm-8.48 18a9.94 9.94 0 01-5.06-1.38l-.36-.22-3.71.97.99-3.63-.24-.37A9.89 9.89 0 012.1 12c0-5.47 4.45-9.93 9.94-9.93 2.65 0 5.14 1.04 7.02 2.93a9.87 9.87 0 012.91 7.01c0 5.47-4.46 9.94-9.93 9.94zm5.46-7.47c-.3-.15-1.77-.88-2.05-.98s-.48-.15-.69.15-.79.98-.97 1.18-.36.22-.66.07a8.08 8.08 0 01-2.37-1.46 8.74 8.74 0 01-1.62-2.01c-.17-.3-.02-.46.13-.61.13-.13.3-.36.46-.54.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.69-1.65-.95-2.27-.25-.6-.5-.52-.69-.53h-.6c-.2 0-.52.08-.79.37s-1.04 1-1.04 2.45 1.07 2.84 1.22 3.04a13.77 13.77 0 004.35 4.42c.6.33 1.06.52 1.42.66.6.19 1.15.17 1.58.1.48-.07 1.77-.72 2.02-1.41.25-.7.25-1.3.17-1.41-.08-.11-.26-.18-.55-.33z"/>
+    </svg>
+  </a>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+
+    // 🌗 Cambio de modo claro/oscuro
+    const toggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light-mode');
+      toggleButton.textContent = 'Modo oscuro';
+    }
+
+    toggleButton.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      const isLight = body.classList.contains('light-mode');
+      toggleButton.textContent = isLight ? 'Modo oscuro' : 'Modo claro';
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
+    // 🪶 Efecto del header flotante
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // 🧭 Resaltar el enlace activo según la sección visible
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+    const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            navLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href").replace("#", "") === entry.target.id) {
+                link.classList.add("active");
+            }
+            });
+        }
+        });
+    },
+    { threshold: 0.5 } // activa cuando la mitad de la sección es visible
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+
+  </script>
+</body>
+</html>
